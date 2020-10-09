@@ -126,6 +126,7 @@ class MQTTClient():
         print("Disconnecting..")
         start_time = time.time()
         try:
+            self.client.loop_stop() 
             self.client.disconnect()
             self.client.user_data_set(start_time)
         except Exception as e:
