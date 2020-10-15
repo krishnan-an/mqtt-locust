@@ -188,6 +188,7 @@ class MQTTClient():
     def locust_on_connect(self, client, userdata,flags, rc):
         print("on connect")
         total_time = time_delta(userdata, time.time())
+        self.subscribe(topic, qos=0, retry=5, name='subscribe:'+topic, timeout=SUBSCRIBE_TIMEOUT)
         # print("Connection returned result: "+mqtt.connack_string(rc))        
         fire_locust_success(
             request_type=REQUEST_TYPE,
@@ -288,8 +289,8 @@ class MyThing(HttpUser):
             self.client.connect_to_server()
             time.sleep(2)
 
-            self.client.subscribe(topic, qos=0, retry=5, name='subscribe:'+topic, timeout=SUBSCRIBE_TIMEOUT)
-            time.sleep(2)
+#             self.client.subscribe(topic, qos=0, retry=5, name='subscribe:'+topic, timeout=SUBSCRIBE_TIMEOUT)
+#             time.sleep(2)
 
             self.client.publish(topic, payload=payload, qos=0, name='publish:'+topic, timeout=PUBLISH_TIMEOUT)
             time.sleep(2)
